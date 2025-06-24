@@ -60,8 +60,8 @@ export function useMediaQuery(
 }
 
 const duration = 0.15
-const transition = { duration, ease: [0.32, 0.72, 0, 1] }
-const transitionOverlay = { duration: 0.5, ease: [0.32, 0.72, 0, 1] }
+const transition = { duration, ease: "easeOut" }
+const transitionOverlay = { duration: 0.5, ease: "easeOut" }
 
 interface WeekCard {
   week: number
