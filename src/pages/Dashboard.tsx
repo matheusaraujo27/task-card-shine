@@ -139,36 +139,12 @@ const Dashboard = () => {
     navigate('/auth');
   };
 
-  const getDifficultyColor = (difficulty?: string) => {
-    switch (difficulty?.toLowerCase()) {
-      case 'easy':
-      case 'fácil':
-        return 'bg-green-500';
-      case 'medium':
-      case 'médio':
-        return 'bg-yellow-500';
-      case 'hard':
-      case 'difícil':
-        return 'bg-red-500';
-      default:
-        return 'bg-gray-500';
-    }
-  };
-
-  const getPlatformColor = (platform?: string) => {
-    switch (platform?.toLowerCase()) {
-      case 'instagram':
-        return 'bg-pink-500';
-      case 'linkedin':
-        return 'bg-blue-600';
-      case 'youtube':
-        return 'bg-red-600';
-      case 'geral':
-      case 'general':
-        return 'bg-gray-600';
-      default:
-        return 'bg-gray-500';
-    }
+  const getWeekProgress = (weekNumber: number) => {
+    const weekTasks = tasks.filter(task => 
+      task.day >= (weekNumber - 1) * 7 + 1 && task.day <= weekNumber * 7
+    );
+    const completedTasks = weekTasks.filter(task => task.completed).length;
+    return weekTasks.length > 0 ? (completedTasks / weekTasks.length) * 100 : 0;
   };
 
   if (loading) {
@@ -294,56 +270,46 @@ const Dashboard = () => {
           </div>
         )}
 
-        {/* Tasks Section */}
+        {/* Weeks Section */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Your Tasks</h3>
-          {tasks.length === 0 ? (
-            <Card>
-              <CardContent className="p-6 text-center">
-                <p className="text-gray-600">No tasks available yet.</p>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {tasks.map((task) => (
-                <Card key={task.id} className={`${task.completed ? 'opacity-60' : ''}`}>
-                  <CardHeader className="pb-3">
-                    <div className="flex justify-between items-start">
-                      <CardTitle className="text-sm font-medium">
-                        Day {task.day}
-                      </CardTitle>
-                      <div className="flex gap-1">
-                        {task.platform && (
-                          <Badge 
-                            className={`${getPlatformColor(task.platform)} text-white text-xs`}
-                          >
-                            {task.platform}
-                          </Badge>
-                        )}
-                        {task.difficulty && (
-                          <Badge 
-                            className={`${getDifficultyColor(task.difficulty)} text-white text-xs`}
-                          >
-                            {task.difficulty}
-                          </Badge>
-                        )}
+          <h3 className="text-xl font-semibold text-gray-900 mb-4">Your Learning Journey</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {[1, 2, 3, 4, 5, 6, 7].map((week) => {
+              const weekProgress = getWeekProgress(week);
+              const isAvailable = week === 1; // For now, only week 1 is available
+              
+              return (
+                <Card 
+                  key={week} 
+                  className={`cursor-pointer transition-all duration-200 ${
+                    isAvailable 
+                      ? 'hover:shadow-lg hover:scale-105' 
+                      : 'opacity-50 cursor-not-allowed'
+                  }`}
+                  onClick={() => isAvailable && navigate(`/week/${week}`)}
+                >
+                  <CardContent className="p-6 text-center">
+                    <div className="text-4xl font-bold text-blue-600 mb-2">
+                      S{week}
+                    </div>
+                    <h4 className="font-semibold text-gray-900 mb-2">
+                      Semana {week}
+                    </h4>
+                    {isAvailable ? (
+                      <div className="space-y-2">
+                        <Progress value={weekProgress} className="h-2" />
+                        <p className="text-xs text-gray-600">
+                          {weekProgress.toFixed(0)}% concluído
+                        </p>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <h4 className="font-semibold text-gray-900 mb-2">{task.title}</h4>
-                    {task.description && (
-                      <p className="text-sm text-gray-600 mb-3">{task.description}</p>
+                    ) : (
+                      <p className="text-xs text-gray-500">Em breve</p>
                     )}
-                    <div className="flex justify-between items-center text-xs text-gray-500">
-                      {task.time && <span>⏱️ {task.time}</span>}
-                      {task.completed && <span className="text-green-600">✅ Completed</span>}
-                    </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          )}
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
