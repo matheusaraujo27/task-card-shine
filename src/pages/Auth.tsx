@@ -145,20 +145,21 @@ const Auth = () => {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 z-0">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Background - Hidden on small screens, visible on larger screens */}
+      <div className="absolute inset-0 z-0 hidden md:block">
         <DraggableContainer variant="masonry">
           <GridBody>
-            {images.map((image, index) => (
+            {images.map((image) => (
               <GridItem
                 key={image.id}
-                className="relative h-54 w-36 md:h-96 md:w-64"
+                className="relative h-32 w-24 sm:h-48 sm:w-32 md:h-64 md:w-40 lg:h-80 lg:w-56"
               >
                 <img
                   src={image.src}
                   alt={image.alt}
-                  className="pointer-events-none absolute h-full w-full object-cover"
+                  className="pointer-events-none absolute h-full w-full object-cover rounded-md"
+                  loading="lazy"
                 />
               </GridItem>
             ))}
@@ -166,18 +167,21 @@ const Auth = () => {
         </DraggableContainer>
       </div>
 
+      {/* Mobile Background - Simple gradient for mobile */}
+      <div className="absolute inset-0 z-0 md:hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+
       {/* Login Form Overlay */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-        <Card className="w-full max-w-md mx-4 bg-white/95 backdrop-blur-md shadow-2xl">
-          <CardHeader className="text-center">
+      <div className="absolute inset-0 z-10 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+        <Card className="w-full max-w-md bg-white/95 backdrop-blur-md shadow-2xl border-0">
+          <CardHeader className="text-center space-y-2">
             <CardTitle className="text-2xl font-bold text-gray-900">
               {isLogin ? 'Welcome Back' : 'Create Account'}
             </CardTitle>
-            <CardDescription>
+            <CardDescription className="text-gray-600">
               {isLogin ? 'Sign in to your Cards account' : 'Start your journey with Cards'}
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <Input
@@ -186,7 +190,7 @@ const Auth = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full"
+                  className="w-full h-12 px-4 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
               <div className="space-y-2">
@@ -196,22 +200,22 @@ const Auth = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full"
+                  className="w-full h-12 px-4 text-base border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
               <Button
                 type="submit"
-                className="w-full"
+                className="w-full h-12 text-base font-semibold bg-slate-900 hover:bg-slate-800 text-white"
                 disabled={loading}
               >
                 {loading ? 'Loading...' : (isLogin ? 'Sign In' : 'Sign Up')}
               </Button>
             </form>
-            <div className="mt-4 text-center">
+            <div className="text-center">
               <button
                 type="button"
                 onClick={() => setIsLogin(!isLogin)}
-                className="text-sm text-blue-600 hover:underline"
+                className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
               >
                 {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
               </button>
