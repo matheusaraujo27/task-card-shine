@@ -254,8 +254,10 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-6">
         {/* Profile Section */}
         <div className="mb-4 sm:mb-6">
-          <Card className="bg-white shadow-sm">
-            <CardContent className="p-4 sm:p-6">
+          <Card className="bg-white shadow-sm border border-gray-200 rounded-xl relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-br-full opacity-10"></div>
+            <div className="absolute top-0 left-0 w-8 h-8 bg-blue-500 rounded-br-full"></div>
+            <CardContent className="p-4 sm:p-6 relative">
               <div className="flex items-start space-x-3 sm:space-x-4">
                 <Avatar className="h-10 w-10 sm:h-12 sm:w-12 flex-shrink-0">
                   <AvatarImage src={profile?.avatar_url} />
@@ -277,10 +279,13 @@ const Dashboard = () => {
         <div className="mb-6 sm:mb-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             {profileHighlights.map((highlight, index) => {
-              const borderColors = ['border-l-blue-500', 'border-l-green-500', 'border-l-purple-500', 'border-l-pink-500'];
+              const cornerColors = ['from-blue-500 to-blue-600', 'from-green-500 to-green-600', 'from-purple-500 to-purple-600', 'from-pink-500 to-pink-600'];
+              const solidCornerColors = ['bg-blue-500', 'bg-green-500', 'bg-purple-500', 'bg-pink-500'];
               return (
-                <Card key={index} className={`bg-white shadow-sm border-l-4 ${borderColors[index % borderColors.length]}`}>
-                  <CardContent className="p-3 sm:p-4">
+                <Card key={index} className="bg-white shadow-sm border border-gray-200 rounded-xl relative overflow-hidden">
+                  <div className={`absolute top-0 left-0 w-16 h-16 bg-gradient-to-br ${cornerColors[index % cornerColors.length]} rounded-br-full opacity-10`}></div>
+                  <div className={`absolute top-0 left-0 w-8 h-8 ${solidCornerColors[index % solidCornerColors.length]} rounded-br-full`}></div>
+                  <CardContent className="p-3 sm:p-4 relative">
                     <h3 className="font-semibold text-gray-900 mb-2 flex items-center text-sm sm:text-base">
                       <span className="mr-2">{highlight.icon}</span>
                       {highlight.title}
@@ -297,8 +302,10 @@ const Dashboard = () => {
 
         {/* Motivation Quote */}
         <div className="mb-6 sm:mb-8">
-          <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-l-blue-500">
-            <CardContent className="p-4 sm:p-6">
+          <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-xl relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-br-full opacity-20"></div>
+            <div className="absolute top-0 left-0 w-8 h-8 bg-blue-500 rounded-br-full"></div>
+            <CardContent className="p-4 sm:p-6 relative">
               <blockquote className="text-sm sm:text-base italic text-blue-800 font-medium leading-relaxed">
                 {dashboardData?.motivation_quote || `"${profile?.display_name?.split(' ')[0] || 'Usuário'}, sua jornada de transformação será a base para construir uma autoridade digital que impacta vidas." 💙`}
               </blockquote>
@@ -308,8 +315,10 @@ const Dashboard = () => {
 
         {/* How to Use Guide */}
         <div className="mb-6 sm:mb-8">
-          <Card className="bg-white shadow-sm">
-            <CardContent className="p-4 sm:p-6">
+          <Card className="bg-white shadow-sm border border-gray-200 rounded-xl relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-br-full opacity-10"></div>
+            <div className="absolute top-0 left-0 w-8 h-8 bg-blue-500 rounded-br-full"></div>
+            <CardContent className="p-4 sm:p-6 relative">
               <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 flex items-center">
                 <span className="mr-2">💡</span>
                 Como Usar Este Guia Personalizado
@@ -323,11 +332,13 @@ const Dashboard = () => {
 
         {/* Progress Overview */}
         <div className="mb-6 sm:mb-8">
-          <Card className="bg-white shadow-sm">
-            <CardHeader className="pb-2 sm:pb-3">
+          <Card className="bg-white shadow-sm border border-gray-200 rounded-xl relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-br-full opacity-10"></div>
+            <div className="absolute top-0 left-0 w-8 h-8 bg-blue-500 rounded-br-full"></div>
+            <CardHeader className="pb-2 sm:pb-3 relative">
               <CardTitle className="text-base sm:text-lg">Progress Overview</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="relative">
               <div className="space-y-2 sm:space-y-3">
                 <div className="flex justify-between text-xs sm:text-sm">
                   <span>Tasks Completed</span>
