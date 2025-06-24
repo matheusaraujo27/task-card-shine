@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
-import { Ranking } from 'lucide-react';
+import { Trophy } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -185,7 +185,7 @@ const Dashboard = () => {
                 className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md flex items-center space-x-2"
                 onClick={() => toast({ title: "Ranking", description: "Feature coming soon!" })}
               >
-                <Ranking size={16} />
+                <Trophy size={16} />
                 <span className="hidden sm:inline">Ranking: 1808 pts</span>
                 <span className="sm:hidden">1808 pts</span>
               </Button>
