@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -86,7 +87,7 @@ const Dashboard = () => {
       }
 
       // Fetch dashboard data
-      const { data: dashboardData, error: dashboardError } = await supabase
+      const { data: dashboardDataRaw, error: dashboardError } = await supabase
         .from('user_dashboard')
         .select('*')
         .eq('user_id', user.id)
@@ -94,19 +95,21 @@ const Dashboard = () => {
 
       if (dashboardError) {
         console.error('Dashboard error:', dashboardError);
+        // Set empty dashboard data if none exists
+        setDashboardData({});
       } else {
         // Parse the JSON data properly
         const parsedDashboardData: DashboardData = {
-          colors: dashboardData?.colors as Record<string, any> || {},
-          platform_strategy: dashboardData?.platform_strategy as Record<string, any> || {},
-          scores: dashboardData?.scores as Record<string, any> || {},
-          profile_highlights: (dashboardData?.profile_highlights as Array<any>) || [],
-          motivation_quote: dashboardData?.motivation_quote || '',
-          strategy_text: dashboardData?.strategy_text || '',
-          instructions_text: dashboardData?.instructions_text || '',
-          context_text: dashboardData?.context_text || '',
-          sample_activities: (dashboardData?.sample_activities as Array<any>) || [],
-          key_data: dashboardData?.key_data as Record<string, any> || {}
+          colors: dashboardDataRaw?.colors as Record<string, any> || {},
+          platform_strategy: dashboardDataRaw?.platform_strategy as Record<string, any> || {},
+          scores: dashboardDataRaw?.scores as Record<string, any> || {},
+          profile_highlights: (dashboardDataRaw?.profile_highlights as Array<any>) || [],
+          motivation_quote: dashboardDataRaw?.motivation_quote || '',
+          strategy_text: dashboardDataRaw?.strategy_text || '',
+          instructions_text: dashboardDataRaw?.instructions_text || '',
+          context_text: dashboardDataRaw?.context_text || '',
+          sample_activities: (dashboardDataRaw?.sample_activities as Array<any>) || [],
+          key_data: dashboardDataRaw?.key_data as Record<string, any> || {}
         };
         setDashboardData(parsedDashboardData);
       }
@@ -166,6 +169,30 @@ const Dashboard = () => {
     navigate(`/week/${week}`);
   };
 
+  // Default profile highlights when no data exists
+  const defaultProfileHighlights = [
+    {
+      icon: "🎯",
+      title: "Seu Objetivo Principal",
+      content: "Adicionando dados do formulário..."
+    },
+    {
+      icon: "📋",
+      title: "Sua Expertise", 
+      content: "Adicionando dados do formulário..."
+    },
+    {
+      icon: "⚡",
+      title: "Seus Pontos Fortes",
+      content: "Adicionando dados do formulário..."
+    },
+    {
+      icon: "💖",
+      title: "Sua Motivação",
+      content: "Adicionando dados do formulário..."
+    }
+  ];
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -180,6 +207,11 @@ const Dashboard = () => {
   const completedTasks = tasks.filter(task => task.completed).length;
   const totalTasks = tasks.length;
   const progressPercentage = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0;
+
+  // Use profile highlights from database or default ones
+  const profileHighlights = dashboardData?.profile_highlights && dashboardData.profile_highlights.length > 0 
+    ? dashboardData.profile_highlights 
+    : defaultProfileHighlights;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -196,7 +228,9 @@ const Dashboard = () => {
               </Avatar>
               <div className="min-w-0 flex-1">
                 <h1 className="text-sm sm:text-lg font-semibold truncate">{profile?.display_name || 'User'}</h1>
-                <p className="text-xs sm:text-sm text-gray-300 truncate">Saúde + Liderança Desafiado a Bem-estar a um Novo Patamar</p>
+                <p className="text-xs sm:text-sm text-gray-300 truncate">
+                  {dashboardData?.strategy_text || "Adicionando dados do formulário..."}
+                </p>
               </div>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
@@ -231,7 +265,7 @@ const Dashboard = () => {
                 </Avatar>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1 leading-tight">
-                    Seu Perfil Personalizado, {profile?.display_name?.split(' ')[0] || 'Ana'}
+                    Seu Perfil Personalizado, {profile?.display_name?.split(' ')[0] || 'Usuário'}
                   </h2>
                 </div>
               </div>
@@ -242,53 +276,22 @@ const Dashboard = () => {
         {/* Profile Highlights Grid */}
         <div className="mb-6 sm:mb-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <Card className="bg-white shadow-sm border-l-4 border-l-blue-500">
-              <CardContent className="p-3 sm:p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 flex items-center text-sm sm:text-base">
-                  <span className="mr-2">🎯</span>
-                  Seu Objetivo Principal
-                </h3>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                  Criar uma Mentalidade de sucesso de longo prazo, estruturada à demanda, além de palestrar em projetos da sucesso.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-sm border-l-4 border-l-green-500">
-              <CardContent className="p-3 sm:p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 flex items-center text-sm sm:text-base">
-                  <span className="mr-2">📋</span>
-                  Sua Expertise
-                </h3>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                  Mais de 10 anos de experiência em saúde, ciências das terapias e próprio da Terapia Breve, com foco em transformação e reconectar com a Identidade.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-sm border-l-4 border-l-purple-500">
-              <CardContent className="p-3 sm:p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 flex items-center text-sm sm:text-base">
-                  <span className="mr-2">⚡</span>
-                  Seus Pontos Fortes
-                </h3>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                  Autoridade no nicho, perfil professores e transformador, Inspiradora e motivacional, com abordagem sofisticada e premium.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-white shadow-sm border-l-4 border-l-pink-500">
-              <CardContent className="p-3 sm:p-4">
-                <h3 className="font-semibold text-gray-900 mb-2 flex items-center text-sm sm:text-base">
-                  <span className="mr-2">💖</span>
-                  Sua Motivação
-                </h3>
-                <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
-                  Ajudar pessoas a transformarem suas vidas, descobrindo o poder que têm dentro de si, e realizar projetos locais de grande impacto.
-                </p>
-              </CardContent>
-            </Card>
+            {profileHighlights.map((highlight, index) => {
+              const borderColors = ['border-l-blue-500', 'border-l-green-500', 'border-l-purple-500', 'border-l-pink-500'];
+              return (
+                <Card key={index} className={`bg-white shadow-sm border-l-4 ${borderColors[index % borderColors.length]}`}>
+                  <CardContent className="p-3 sm:p-4">
+                    <h3 className="font-semibold text-gray-900 mb-2 flex items-center text-sm sm:text-base">
+                      <span className="mr-2">{highlight.icon}</span>
+                      {highlight.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                      {highlight.content}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
 
@@ -297,7 +300,7 @@ const Dashboard = () => {
           <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-l-blue-500">
             <CardContent className="p-4 sm:p-6">
               <blockquote className="text-sm sm:text-base italic text-blue-800 font-medium leading-relaxed">
-                "Ana, sua jornada de transformação e seu propósito serão a base para construir uma autoridade digital que impacta vidas e honra seu legado." 💙
+                {dashboardData?.motivation_quote || `"${profile?.display_name?.split(' ')[0] || 'Usuário'}, sua jornada de transformação será a base para construir uma autoridade digital que impacta vidas." 💙`}
               </blockquote>
             </CardContent>
           </Card>
@@ -312,7 +315,7 @@ const Dashboard = () => {
                 Como Usar Este Guia Personalizado
               </h3>
               <p className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                Suas atividades foram personalizadas com foco em mentoria. Priorizamos <strong>LinkedIn (70%)</strong> para autoridade profissional, <strong>Instagram (20%)</strong> para humanização e <strong>YouTube (10%)</strong> para conteúdo educativo.
+                {dashboardData?.instructions_text || "Adicionando dados do formulário..."}
               </p>
             </CardContent>
           </Card>
