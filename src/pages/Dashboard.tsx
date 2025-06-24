@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,6 +9,7 @@ import { Progress } from '@/components/ui/progress';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
 import { Trophy } from 'lucide-react';
+import { WeekCarousel } from '@/components/ui/3d-carousel';
 
 interface Profile {
   id: string;
@@ -146,6 +146,26 @@ const Dashboard = () => {
     );
     const completedTasks = weekTasks.filter(task => task.completed).length;
     return weekTasks.length > 0 ? (completedTasks / weekTasks.length) * 100 : 0;
+  };
+
+  const weekCards = [1, 2, 3, 4, 5, 6, 7].map((week) => ({
+    week,
+    activities: 7,
+    progress: getWeekProgress(week),
+    isAvailable: week === 1 // For now, only week 1 is available
+  }));
+
+  const handleWeekClick = (week: number) => {
+    const isAvailable = week === 1;
+    if (isAvailable) {
+      navigate(`/week/${week}`);
+    } else {
+      toast({
+        title: "Em breve",
+        description: `A semana ${week} ainda não está disponível`,
+        variant: "default",
+      });
+    }
   };
 
   if (loading) {
@@ -321,46 +341,10 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Weeks Section */}
+        {/* Weeks Section with 3D Carousel */}
         <div>
           <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6 text-center">Acesse seu Plano de Atividades</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3 md:gap-4">
-            {[1, 2, 3, 4, 5, 6, 7].map((week) => {
-              const weekProgress = getWeekProgress(week);
-              const isAvailable = week === 1; // For now, only week 1 is available
-              
-              return (
-                <Card 
-                  key={week} 
-                  className={`cursor-pointer transition-all duration-200 ${
-                    isAvailable 
-                      ? 'hover:shadow-lg hover:scale-105 bg-white border-2 border-blue-200' 
-                      : 'opacity-50 cursor-not-allowed bg-gray-50'
-                  }`}
-                  onClick={() => isAvailable && navigate(`/week/${week}`)}
-                >
-                  <CardContent className="p-3 sm:p-4 text-center">
-                    <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600 mb-1 sm:mb-2">
-                      S{week}
-                    </div>
-                    <p className="text-xs text-gray-600 mb-1 sm:mb-2">
-                      7 atividades
-                    </p>
-                    {isAvailable ? (
-                      <div className="space-y-1 sm:space-y-2">
-                        <Progress value={weekProgress} className="h-1 sm:h-1.5" />
-                        <p className="text-xs text-gray-600">
-                          {weekProgress.toFixed(0)}% concluído
-                        </p>
-                      </div>
-                    ) : (
-                      <p className="text-xs text-gray-500">Em breve</p>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+          <WeekCarousel weeks={weekCards} onWeekClick={handleWeekClick} />
         </div>
       </div>
     </div>
