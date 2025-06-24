@@ -60,8 +60,8 @@ export function useMediaQuery(
 }
 
 const duration = 0.15
-const transition = { duration, ease: "easeOut" }
-const transitionOverlay = { duration: 0.5, ease: "easeOut" }
+const transition = { duration, ease: [0.32, 0.72, 0, 1] as const }
+const transitionOverlay = { duration: 0.5, ease: [0.32, 0.72, 0, 1] as const }
 
 interface WeekCard {
   week: number
@@ -148,7 +148,7 @@ const Carousel = memo(
                 initial={{ filter: "blur(4px)" }}
                 layout="position"
                 animate={{ filter: "blur(0px)" }}
-                transition={transition}
+                transition={{ duration: 0.15, ease: [0.32, 0.72, 0, 1] }}
               >
                 <div className="text-3xl font-bold text-blue-600 mb-1">
                   S{card.week}

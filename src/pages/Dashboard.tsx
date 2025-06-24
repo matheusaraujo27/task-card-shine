@@ -148,24 +148,22 @@ const Dashboard = () => {
     return weekTasks.length > 0 ? (completedTasks / weekTasks.length) * 100 : 0;
   };
 
+  const getWeekActivitiesCount = (weekNumber: number) => {
+    const weekTasks = tasks.filter(task => 
+      task.day >= (weekNumber - 1) * 7 + 1 && task.day <= weekNumber * 7
+    );
+    return weekTasks.length;
+  };
+
   const weekCards = [1, 2, 3, 4, 5, 6, 7].map((week) => ({
     week,
-    activities: 7,
+    activities: getWeekActivitiesCount(week),
     progress: getWeekProgress(week),
-    isAvailable: week === 1 // For now, only week 1 is available
+    isAvailable: true // All weeks are now available
   }));
 
   const handleWeekClick = (week: number) => {
-    const isAvailable = week === 1;
-    if (isAvailable) {
-      navigate(`/week/${week}`);
-    } else {
-      toast({
-        title: "Em breve",
-        description: `A semana ${week} ainda não está disponível`,
-        variant: "default",
-      });
-    }
+    navigate(`/week/${week}`);
   };
 
   if (loading) {

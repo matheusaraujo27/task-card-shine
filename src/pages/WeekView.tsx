@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -40,20 +41,26 @@ const WeekView = () => {
 
   const fetchWeekTasks = async () => {
     try {
-      if (!user) return;
+      if (!user || !weekNumber) return;
 
-      // For now, we'll show all tasks for week 1 (days 1-7)
+      const week = parseInt(weekNumber);
+      const startDay = (week - 1) * 7 + 1;
+      const endDay = week * 7;
+
+      console.log(`Fetching tasks for week ${week}, days ${startDay}-${endDay}`);
+
       const { data: tasksData, error } = await supabase
         .from('user_tasks')
         .select('*')
         .eq('user_id', user.id)
-        .gte('day', 1)
-        .lte('day', 7)
+        .gte('day', startDay)
+        .lte('day', endDay)
         .order('day', { ascending: true });
 
       if (error) {
         console.error('Tasks error:', error);
       } else {
+        console.log('Fetched tasks:', tasksData);
         setTasks(tasksData || []);
       }
     } catch (error) {
@@ -101,6 +108,8 @@ const WeekView = () => {
   };
 
   const selectedTask = selectedDay ? tasks.find(task => task.day === selectedDay) : null;
+  const week = parseInt(weekNumber || '1');
+  const weekDays = Array.from({ length: 7 }, (_, i) => (week - 1) * 7 + i + 1);
 
   if (loading) {
     return (
@@ -141,7 +150,7 @@ const WeekView = () => {
           {/* Left Sidebar - Days */}
           <div className="w-80">
             <div className="space-y-3">
-              {[1, 2, 3, 4, 5, 6, 7].map((day) => {
+              {weekDays.map((day) => {
                 const task = tasks.find(t => t.day === day);
                 const isSelected = selectedDay === day;
                 
@@ -164,9 +173,13 @@ const WeekView = () => {
                           </Badge>
                         )}
                       </div>
-                      {task && (
+                      {task ? (
                         <div className="text-sm text-gray-300 mb-3">
                           {task.title}
+                        </div>
+                      ) : (
+                        <div className="text-sm text-gray-500 mb-3">
+                          Nenhuma atividade disponível
                         </div>
                       )}
                       
