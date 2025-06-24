@@ -9,7 +9,195 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          archetype: string | null
+          avatar_url: string | null
+          created_at: string
+          display_name: string
+          focus: string | null
+          id: string
+          student_name: string
+          subtitle: string | null
+          title: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          archetype?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          display_name: string
+          focus?: string | null
+          id?: string
+          student_name: string
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          archetype?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string
+          focus?: string | null
+          id?: string
+          student_name?: string
+          subtitle?: string | null
+          title?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_activities: {
+        Row: {
+          completed: boolean | null
+          completed_at: string | null
+          created_at: string
+          day: number
+          description: string | null
+          difficulty: string | null
+          id: string
+          personalized: boolean | null
+          platform: string
+          time: string | null
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean | null
+          completed_at?: string | null
+          created_at?: string
+          day: number
+          description?: string | null
+          difficulty?: string | null
+          id?: string
+          personalized?: boolean | null
+          platform: string
+          time?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean | null
+          completed_at?: string | null
+          created_at?: string
+          day?: number
+          description?: string | null
+          difficulty?: string | null
+          id?: string
+          personalized?: boolean | null
+          platform?: string
+          time?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_dashboard: {
+        Row: {
+          colors: Json | null
+          context_text: string | null
+          created_at: string
+          id: string
+          instructions_text: string | null
+          key_data: Json | null
+          motivation_quote: string | null
+          platform_strategy: Json | null
+          profile_highlights: Json | null
+          sample_activities: Json | null
+          scores: Json | null
+          strategy_text: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          colors?: Json | null
+          context_text?: string | null
+          created_at?: string
+          id?: string
+          instructions_text?: string | null
+          key_data?: Json | null
+          motivation_quote?: string | null
+          platform_strategy?: Json | null
+          profile_highlights?: Json | null
+          sample_activities?: Json | null
+          scores?: Json | null
+          strategy_text?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          colors?: Json | null
+          context_text?: string | null
+          created_at?: string
+          id?: string
+          instructions_text?: string | null
+          key_data?: Json | null
+          motivation_quote?: string | null
+          platform_strategy?: Json | null
+          profile_highlights?: Json | null
+          sample_activities?: Json | null
+          scores?: Json | null
+          strategy_text?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_tasks: {
+        Row: {
+          completed: boolean | null
+          completed_at: string | null
+          created_at: string
+          day: number
+          description: string | null
+          difficulty: string | null
+          id: string
+          platform: string | null
+          time: string | null
+          title: string
+          type: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean | null
+          completed_at?: string | null
+          created_at?: string
+          day: number
+          description?: string | null
+          difficulty?: string | null
+          id?: string
+          platform?: string | null
+          time?: string | null
+          title: string
+          type?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean | null
+          completed_at?: string | null
+          created_at?: string
+          day?: number
+          description?: string | null
+          difficulty?: string | null
+          id?: string
+          platform?: string | null
+          time?: string | null
+          title?: string
+          type?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
