@@ -5,7 +5,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
-import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import WeekView from "./pages/WeekView";
@@ -52,7 +51,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={
               <PublicRoute>
-                <Index />
+                <Auth />
               </PublicRoute>
             } />
             <Route path="/auth" element={
