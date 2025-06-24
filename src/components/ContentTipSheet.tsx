@@ -37,6 +37,7 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
   const { user } = useAuth();
   const [content, setContent] = useState<DailyContent | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen && user) {
@@ -47,20 +48,25 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
   const fetchDailyContent = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('user_daily_content')
+      setError(null);
+      
+      // Try to fetch from user_daily_content table
+      const { data, error: fetchError } = await supabase
+        .from('user_daily_content' as any)
         .select('*')
         .eq('user_id', user!.id)
         .eq('day', day)
         .single();
 
-      if (error) {
-        console.error('Error fetching daily content:', error);
+      if (fetchError) {
+        console.error('Error fetching daily content:', fetchError);
+        setError('Tabela de conteúdo detalhado ainda não foi criada.');
       } else {
         setContent(data);
       }
     } catch (error) {
       console.error('Error:', error);
+      setError('Erro ao buscar conteúdo detalhado.');
     } finally {
       setLoading(false);
     }
@@ -192,6 +198,30 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
         <SheetContent className="bg-gray-800 border-gray-700 text-white overflow-y-auto max-w-2xl">
           <div className="flex items-center justify-center h-32">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          </div>
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
+  if (error) {
+    return (
+      <Sheet open={isOpen} onOpenChange={onClose}>
+        <SheetContent className="bg-gray-800 border-gray-700 text-white overflow-y-auto max-w-2xl">
+          <SheetHeader>
+            <SheetTitle className="text-white">Dica de Conteúdo - Dia {day}</SheetTitle>
+            <SheetDescription className="text-gray-300">
+              {error}
+            </SheetDescription>
+          </SheetHeader>
+          <div className="mt-6">
+            <Card className="bg-gray-700 border-gray-600">
+              <CardContent className="p-6 text-center">
+                <p className="text-gray-300">
+                  Para ver as dicas de conteúdo detalhadas, é necessário executar a migração SQL para criar a tabela user_daily_content.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </SheetContent>
       </Sheet>
