@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -9,6 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
+import { Ranking } from 'lucide-react';
 
 interface Profile {
   id: string;
@@ -165,58 +165,144 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-slate-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
-            <h1 className="text-2xl font-bold text-gray-900">Cards Dashboard</h1>
-            <Button onClick={handleSignOut} variant="outline">
-              Sign Out
-            </Button>
+            <div className="flex items-center space-x-4">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={profile?.avatar_url} />
+                <AvatarFallback className="text-sm bg-white text-slate-800">
+                  {profile?.display_name?.charAt(0) || 'U'}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h1 className="text-lg font-semibold">{profile?.display_name || 'User'}</h1>
+                <p className="text-sm text-gray-300">Saúde + Liderança Desafiado a Bem-estar a um Novo Patamar</p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Button 
+                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-md flex items-center space-x-2"
+                onClick={() => toast({ title: "Ranking", description: "Feature coming soon!" })}
+              >
+                <Ranking size={16} />
+                <span className="hidden sm:inline">Ranking: 1808 pts</span>
+                <span className="sm:hidden">1808 pts</span>
+              </Button>
+              <Button onClick={handleSignOut} variant="outline" className="text-white border-white hover:bg-white hover:text-slate-800">
+                Sign Out
+              </Button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Profile Section */}
-        <div className="mb-8">
-          <Card>
+        <div className="mb-6">
+          <Card className="bg-white shadow-sm">
             <CardContent className="p-6">
-              <div className="flex items-start space-x-6">
-                <Avatar className="h-24 w-24">
+              <div className="flex items-start space-x-4">
+                <Avatar className="h-12 w-12">
                   <AvatarImage src={profile?.avatar_url} />
-                  <AvatarFallback className="text-2xl">
+                  <AvatarFallback className="text-lg">
                     {profile?.display_name?.charAt(0) || 'U'}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                    {profile?.display_name || 'User'}
+                  <h2 className="text-xl font-bold text-gray-900 mb-1">
+                    Seu Perfil Personalizado, {profile?.display_name?.split(' ')[0] || 'Ana'}
                   </h2>
-                  {profile?.title && (
-                    <p className="text-lg text-gray-700 mb-2">{profile.title}</p>
-                  )}
-                  {profile?.subtitle && (
-                    <p className="text-gray-600 mb-3">{profile.subtitle}</p>
-                  )}
-                  <div className="flex gap-2">
-                    {profile?.archetype && (
-                      <Badge variant="secondary">{profile.archetype}</Badge>
-                    )}
-                    {profile?.focus && (
-                      <Badge variant="outline">{profile.focus}</Badge>
-                    )}
-                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
         </div>
 
+        {/* Profile Highlights Grid */}
+        <div className="mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Card className="bg-white shadow-sm border-l-4 border-l-blue-500">
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
+                  <span className="mr-2">🎯</span>
+                  Seu Objetivo Principal
+                </h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Criar uma Mentalidade de sucesso de longo prazo, estruturada à demanda, além de palestrar em projetos da sucesso.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white shadow-sm border-l-4 border-l-green-500">
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
+                  <span className="mr-2">📋</span>
+                  Sua Expertise
+                </h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Mais de 10 anos de experiência em saúde, ciências das terapias e próprio da Terapia Breve, com foco em transformação e reconectar com a Identidade.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white shadow-sm border-l-4 border-l-purple-500">
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
+                  <span className="mr-2">⚡</span>
+                  Seus Pontos Fortes
+                </h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Autoridade no nicho, perfil professores e transformador, Inspiradora e motivacional, com abordagem sofisticada e premium.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white shadow-sm border-l-4 border-l-pink-500">
+              <CardContent className="p-4">
+                <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
+                  <span className="mr-2">💖</span>
+                  Sua Motivação
+                </h3>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                  Ajudar pessoas a transformarem suas vidas, descobrindo o poder que têm dentro de si, e realizar projetos locais de grande impacto.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* Motivation Quote */}
+        <div className="mb-8">
+          <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-l-4 border-l-blue-500">
+            <CardContent className="p-6">
+              <blockquote className="text-base italic text-blue-800 font-medium">
+                "Ana, sua jornada de transformação e seu propósito serão a base para construir uma autoridade digital que impacta vidas e honra seu legado." 💙
+              </blockquote>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* How to Use Guide */}
+        <div className="mb-8">
+          <Card className="bg-white shadow-sm">
+            <CardContent className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                <span className="mr-2">💡</span>
+                Como Usar Este Guia Personalizado
+              </h3>
+              <p className="text-sm text-gray-700 leading-relaxed">
+                Suas atividades foram personalizadas com foco em mentoria. Priorizamos <strong>LinkedIn (70%)</strong> para autoridade profissional, <strong>Instagram (20%)</strong> para humanização e <strong>YouTube (10%)</strong> para conteúdo educativo.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Progress Overview */}
         <div className="mb-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Progress Overview</CardTitle>
+          <Card className="bg-white shadow-sm">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">Progress Overview</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
@@ -233,47 +319,10 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Motivation Quote */}
-        {dashboardData?.motivation_quote && (
-          <div className="mb-8">
-            <Card className="bg-gradient-to-r from-blue-50 to-purple-50">
-              <CardContent className="p-6">
-                <blockquote className="text-lg italic text-gray-700 text-center">
-                  "{dashboardData.motivation_quote}"
-                </blockquote>
-              </CardContent>
-            </Card>
-          </div>
-        )}
-
-        {/* Profile Highlights */}
-        {dashboardData?.profile_highlights && dashboardData.profile_highlights.length > 0 && (
-          <div className="mb-8">
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">Profile Highlights</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {dashboardData.profile_highlights.map((highlight: any, index: number) => (
-                <Card key={index}>
-                  <CardContent className="p-4">
-                    <div className="flex items-start space-x-3">
-                      <div className="text-2xl">{highlight.icon}</div>
-                      <div>
-                        <h4 className="font-semibold text-gray-900 mb-1">
-                          {highlight.title}
-                        </h4>
-                        <p className="text-sm text-gray-600">{highlight.content}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Weeks Section */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-4">Your Learning Journey</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <h3 className="text-xl font-semibold text-gray-900 mb-6 text-center">Acesse seu Plano de Atividades</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-4">
             {[1, 2, 3, 4, 5, 6, 7].map((week) => {
               const weekProgress = getWeekProgress(week);
               const isAvailable = week === 1; // For now, only week 1 is available
@@ -283,21 +332,21 @@ const Dashboard = () => {
                   key={week} 
                   className={`cursor-pointer transition-all duration-200 ${
                     isAvailable 
-                      ? 'hover:shadow-lg hover:scale-105' 
-                      : 'opacity-50 cursor-not-allowed'
+                      ? 'hover:shadow-lg hover:scale-105 bg-white border-2 border-blue-200' 
+                      : 'opacity-50 cursor-not-allowed bg-gray-50'
                   }`}
                   onClick={() => isAvailable && navigate(`/week/${week}`)}
                 >
-                  <CardContent className="p-6 text-center">
-                    <div className="text-4xl font-bold text-blue-600 mb-2">
+                  <CardContent className="p-4 text-center">
+                    <div className="text-3xl font-bold text-blue-600 mb-2">
                       S{week}
                     </div>
-                    <h4 className="font-semibold text-gray-900 mb-2">
-                      Semana {week}
-                    </h4>
+                    <p className="text-xs text-gray-600 mb-2">
+                      7 atividades
+                    </p>
                     {isAvailable ? (
                       <div className="space-y-2">
-                        <Progress value={weekProgress} className="h-2" />
+                        <Progress value={weekProgress} className="h-1.5" />
                         <p className="text-xs text-gray-600">
                           {weekProgress.toFixed(0)}% concluído
                         </p>
