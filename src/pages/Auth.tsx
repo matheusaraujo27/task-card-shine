@@ -6,6 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from '@/components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
+import { TestimonialsColumn, testimonials } from '@/components/ui/testimonials-columns-1';
+
+const firstColumn = testimonials.slice(0, 3);
+const secondColumn = testimonials.slice(3, 6);
+const thirdColumn = testimonials.slice(6, 9);
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -51,10 +56,21 @@ const Auth = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-gray-900">
-      {/* Login Form */}
-      <div className="flex items-center justify-center min-h-screen p-4">
-        <Card className="w-full max-w-md bg-white/98 backdrop-blur-sm shadow-2xl border-0">
+    <div className="relative min-h-screen overflow-hidden bg-background">
+      {/* Testimonials Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="flex justify-center gap-6 pt-10 [mask-image:linear-gradient(to_bottom,transparent,black_25%,black_75%,transparent)] max-h-screen overflow-hidden">
+          <TestimonialsColumn testimonials={firstColumn} duration={15} />
+          <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={19} />
+          <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={17} />
+        </div>
+        {/* Dark overlay for better readability */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+      </div>
+
+      {/* Login Form - Positioned higher */}
+      <div className="relative z-10 flex items-start justify-center min-h-screen pt-16 p-4">
+        <Card className="w-full max-w-md bg-white/95 backdrop-blur-md shadow-2xl border-0">
           <CardHeader className="text-center space-y-2 p-6">
             <CardTitle className="text-2xl font-bold text-gray-900">
               {isLogin ? 'Welcome Back' : 'Create Account'}
