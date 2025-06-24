@@ -1,18 +1,11 @@
+
 import { useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { DraggableContainer, GridBody, GridItem } from '@/components/ui/infinite-drag-scroll';
 import { toast } from '@/components/ui/use-toast';
 import { useNavigate } from 'react-router-dom';
-
-// Create array of your custom cards
-const cards = Array.from({ length: 18 }, (_, index) => ({
-  id: index + 1,
-  alt: `Card ${index + 1}`,
-  src: "https://brcwfzwtrapbkzpolhws.supabase.co/storage/v1/object/public/cards/cardMDL.png",
-}));
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -58,37 +51,10 @@ const Auth = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
-      {/* Desktop Background - Only visible on larger screens */}
-      <div className="absolute inset-0 z-0 hidden lg:block">
-        <DraggableContainer variant="masonry">
-          <GridBody>
-            {cards.map((card) => (
-              <GridItem
-                key={card.id}
-                className="relative h-48 w-32 xl:h-64 xl:w-40"
-              >
-                <img
-                  src={card.src}
-                  alt={card.alt}
-                  className="pointer-events-none absolute h-full w-full object-cover rounded-lg shadow-md"
-                  loading="lazy"
-                />
-              </GridItem>
-            ))}
-          </GridBody>
-        </DraggableContainer>
-      </div>
-
-      {/* Mobile/Tablet Background - Clean gradient */}
-      <div className="absolute inset-0 z-0 lg:hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
-
-      {/* Login Form Overlay */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center p-4">
-        {/* Background overlay only for desktop */}
-        <div className="absolute inset-0 bg-black/30 backdrop-blur-sm hidden lg:block"></div>
-        
-        <Card className="relative w-full max-w-md bg-white/98 backdrop-blur-sm shadow-2xl border-0 lg:bg-white/95 lg:backdrop-blur-md">
+    <div className="relative min-h-screen overflow-hidden bg-gray-900">
+      {/* Login Form */}
+      <div className="flex items-center justify-center min-h-screen p-4">
+        <Card className="w-full max-w-md bg-white/98 backdrop-blur-sm shadow-2xl border-0">
           <CardHeader className="text-center space-y-2 p-6">
             <CardTitle className="text-2xl font-bold text-gray-900">
               {isLogin ? 'Welcome Back' : 'Create Account'}
