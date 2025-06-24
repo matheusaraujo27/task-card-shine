@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,7 +9,6 @@ import { Progress } from '@/components/ui/progress';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@/components/ui/use-toast';
 import { Trophy } from 'lucide-react';
-import { WeekCarousel } from '@/components/ui/3d-carousel';
 
 interface Profile {
   id: string;
@@ -157,13 +155,6 @@ const Dashboard = () => {
     );
     return weekTasks.length;
   };
-
-  const weekCards = [1, 2, 3, 4, 5, 6, 7].map((week) => ({
-    week,
-    activities: getWeekActivitiesCount(week),
-    progress: getWeekProgress(week),
-    isAvailable: true // All weeks are now available
-  }));
 
   const handleWeekClick = (week: number) => {
     navigate(`/week/${week}`);
@@ -342,10 +333,41 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Weeks Section with 3D Carousel */}
+        {/* Weeks Section with Individual Cards */}
         <div>
           <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4 sm:mb-6 text-center">Acesse seu Plano de Atividades</h3>
-          <WeekCarousel weeks={weekCards} onWeekClick={handleWeekClick} />
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3 sm:gap-4">
+            {[1, 2, 3, 4, 5, 6, 7].map((week) => {
+              const activities = getWeekActivitiesCount(week);
+              const progress = getWeekProgress(week);
+              
+              return (
+                <Card 
+                  key={week}
+                  className="cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105 bg-white border-2 border-blue-200 hover:border-blue-400"
+                  onClick={() => handleWeekClick(week)}
+                >
+                  <CardContent className="p-3 sm:p-4 text-center">
+                    <div className="text-2xl sm:text-3xl font-bold text-blue-600 mb-2">
+                      S{week}
+                    </div>
+                    <p className="text-xs text-gray-600 mb-2">
+                      {activities} atividades
+                    </p>
+                    <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden mb-2">
+                      <div 
+                        className="h-full bg-blue-500 rounded-full transition-all"
+                        style={{ width: `${progress}%` }}
+                      />
+                    </div>
+                    <p className="text-xs text-gray-600">
+                      {progress.toFixed(0)}% concluído
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
