@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
@@ -6,7 +5,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Lightbulb } from 'lucide-react';
+import ContentTipSheet from '@/components/ContentTipSheet';
 
 interface Task {
   id: string;
@@ -27,6 +27,8 @@ const WeekView = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
+  const [contentTipOpen, setContentTipOpen] = useState(false);
+  const [contentTipDay, setContentTipDay] = useState<number | null>(null);
 
   useEffect(() => {
     if (!user) {
@@ -93,6 +95,11 @@ const WeekView = () => {
     }
   };
 
+  const handleContentTip = (day: number) => {
+    setContentTipDay(day);
+    setContentTipOpen(true);
+  };
+
   const selectedTask = selectedDay ? tasks.find(task => task.day === selectedDay) : null;
 
   if (loading) {
@@ -141,7 +148,7 @@ const WeekView = () => {
                 return (
                   <Card 
                     key={day}
-                    className={`cursor-pointer transition-all duration-200 border-2 ${
+                    className={`cursor-pointer transition-all duration-200 border-2 relative ${
                       isSelected 
                         ? 'bg-blue-600 border-blue-400' 
                         : 'bg-gray-800 border-gray-600 hover:border-blue-500'
@@ -158,10 +165,26 @@ const WeekView = () => {
                         )}
                       </div>
                       {task && (
-                        <div className="text-sm text-gray-300">
+                        <div className="text-sm text-gray-300 mb-3">
                           {task.title}
                         </div>
                       )}
+                      
+                      {/* Content Tip Button */}
+                      <div className="flex justify-end">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleContentTip(day);
+                          }}
+                          className="text-xs bg-gray-700 border-gray-600 text-white hover:bg-gray-600 hover:border-gray-500"
+                        >
+                          <Lightbulb className="h-3 w-3 mr-1" />
+                          Dica de Conteúdo
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 );
@@ -222,6 +245,13 @@ const WeekView = () => {
           </div>
         </div>
       </div>
+
+      {/* Content Tip Sheet */}
+      <ContentTipSheet
+        isOpen={contentTipOpen}
+        onClose={() => setContentTipOpen(false)}
+        day={contentTipDay || 1}
+      />
     </div>
   );
 };
