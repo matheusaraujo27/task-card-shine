@@ -22,16 +22,20 @@ interface Profile {
 }
 
 interface DashboardData {
-  colors?: any;
-  platform_strategy?: any;
-  scores?: any;
-  profile_highlights?: any[];
+  colors?: Record<string, any>;
+  platform_strategy?: Record<string, any>;
+  scores?: Record<string, any>;
+  profile_highlights?: Array<{
+    icon: string;
+    title: string;
+    content: string;
+  }>;
   motivation_quote?: string;
   strategy_text?: string;
   instructions_text?: string;
   context_text?: string;
-  sample_activities?: any[];
-  key_data?: any;
+  sample_activities?: Array<any>;
+  key_data?: Record<string, any>;
 }
 
 interface Task {
@@ -90,7 +94,20 @@ const Dashboard = () => {
       if (dashboardError) {
         console.error('Dashboard error:', dashboardError);
       } else {
-        setDashboardData(dashboardData);
+        // Parse the JSON data properly
+        const parsedDashboardData: DashboardData = {
+          colors: dashboardData?.colors as Record<string, any> || {},
+          platform_strategy: dashboardData?.platform_strategy as Record<string, any> || {},
+          scores: dashboardData?.scores as Record<string, any> || {},
+          profile_highlights: (dashboardData?.profile_highlights as Array<any>) || [],
+          motivation_quote: dashboardData?.motivation_quote || '',
+          strategy_text: dashboardData?.strategy_text || '',
+          instructions_text: dashboardData?.instructions_text || '',
+          context_text: dashboardData?.context_text || '',
+          sample_activities: (dashboardData?.sample_activities as Array<any>) || [],
+          key_data: dashboardData?.key_data as Record<string, any> || {}
+        };
+        setDashboardData(parsedDashboardData);
       }
 
       // Fetch tasks
