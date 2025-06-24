@@ -11,7 +11,7 @@ export const populateAnaPatriciaData = async () => {
       return;
     }
 
-    const anaUser = users?.find(user => user.email === 'anapatriciavelloso@yahoo.com.br');
+    const anaUser = users?.find((user: any) => user.email === 'anapatriciavelloso@yahoo.com.br');
     
     if (!anaUser) {
       console.error('User not found');
