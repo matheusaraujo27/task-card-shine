@@ -99,6 +99,60 @@ export type Database = {
         }
         Relationships: []
       }
+      user_daily_content: {
+        Row: {
+          audio_suggestion: string | null
+          caption_description: string | null
+          content_type: string
+          created_at: string
+          cta_text: string | null
+          day: number
+          hashtags: string | null
+          id: string
+          scenes: Json | null
+          slides: Json | null
+          strategic_analysis: string | null
+          title: string
+          updated_at: string
+          user_id: string
+          video_structure: Json | null
+        }
+        Insert: {
+          audio_suggestion?: string | null
+          caption_description?: string | null
+          content_type: string
+          created_at?: string
+          cta_text?: string | null
+          day: number
+          hashtags?: string | null
+          id?: string
+          scenes?: Json | null
+          slides?: Json | null
+          strategic_analysis?: string | null
+          title: string
+          updated_at?: string
+          user_id: string
+          video_structure?: Json | null
+        }
+        Update: {
+          audio_suggestion?: string | null
+          caption_description?: string | null
+          content_type?: string
+          created_at?: string
+          cta_text?: string | null
+          day?: number
+          hashtags?: string | null
+          id?: string
+          scenes?: Json | null
+          slides?: Json | null
+          strategic_analysis?: string | null
+          title?: string
+          updated_at?: string
+          user_id?: string
+          video_structure?: Json | null
+        }
+        Relationships: []
+      }
       user_dashboard: {
         Row: {
           colors: Json | null

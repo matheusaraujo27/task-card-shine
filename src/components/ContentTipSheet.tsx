@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
@@ -50,9 +49,9 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
       setLoading(true);
       setError(null);
       
-      // Try to fetch from user_daily_content table
+      // Fetch from user_daily_content table
       const { data, error: fetchError } = await supabase
-        .from('user_daily_content' as any)
+        .from('user_daily_content')
         .select('*')
         .eq('user_id', user!.id)
         .eq('day', day)
@@ -60,9 +59,9 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
 
       if (fetchError) {
         console.error('Error fetching daily content:', fetchError);
-        setError('Tabela de conteúdo detalhado ainda não foi criada.');
+        setError('Nenhum conteúdo detalhado encontrado para este dia.');
       } else {
-        setContent(data);
+        setContent(data as DailyContent);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -218,7 +217,7 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
             <Card className="bg-gray-700 border-gray-600">
               <CardContent className="p-6 text-center">
                 <p className="text-gray-300">
-                  Para ver as dicas de conteúdo detalhadas, é necessário executar a migração SQL para criar a tabela user_daily_content.
+                  Nenhum conteúdo detalhado foi encontrado para este dia ainda.
                 </p>
               </CardContent>
             </Card>
