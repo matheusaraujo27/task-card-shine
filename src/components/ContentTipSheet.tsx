@@ -274,7 +274,15 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
           <div className="flex items-center gap-3">
             <SheetTitle className="text-white">{content.title}</SheetTitle>
             <Badge className={`${getContentTypeColor(content.content_type)} text-white shadow-lg`}>
-              {getContentTypeLabel(content.content_type)}
+              {content.content_type === 'profile_setup' ? 'PERFIL' :
+               content.content_type === 'carousel' ? 'CARROSSEL' :
+               content.content_type === 'content_creation' ? 'POST' :
+               content.content_type === 'article' ? 'ARTIGO' :
+               content.content_type === 'planning' ? 'PLANEJAMENTO' :
+               content.content_type === 'stories' ? 'STORIES' :
+               content.content_type === 'reels' ? 'REELS' :
+               content.content_type === 'youtube' ? 'YOUTUBE' :
+               content.content_type.toUpperCase()}
             </Badge>
           </div>
           <SheetDescription className="text-gray-300">

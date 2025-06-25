@@ -465,7 +465,15 @@ const WeekView = () => {
                             </h3>
                             {dailyContent && (
                               <Badge className={`${getContentTypeColor(dailyContent.content_type)} text-white shadow-lg`}>
-                                {getContentTypeLabel(dailyContent.content_type)}
+                                {dailyContent.content_type === 'profile_setup' ? 'PERFIL' :
+                                 dailyContent.content_type === 'carousel' ? 'CARROSSEL' :
+                                 dailyContent.content_type === 'content_creation' ? 'POST' :
+                                 dailyContent.content_type === 'article' ? 'ARTIGO' :
+                                 dailyContent.content_type === 'planning' ? 'PLANEJAMENTO' :
+                                 dailyContent.content_type === 'stories' ? 'STORIES' :
+                                 dailyContent.content_type === 'reels' ? 'REELS' :
+                                 dailyContent.content_type === 'youtube' ? 'YOUTUBE' :
+                                 dailyContent.content_type.toUpperCase()}
                               </Badge>
                             )}
                           </div>
