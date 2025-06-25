@@ -274,6 +274,7 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
           <div className="flex items-center gap-3">
             <SheetTitle className="text-white">{content.title}</SheetTitle>
             <Badge className={`${getContentTypeColor(content.content_type)} text-white shadow-lg`}>
+              {/* Tradução dos badges para português */}
               {content.content_type === 'profile_setup' ? 'PERFIL' :
                content.content_type === 'carousel' ? 'CARROSSEL' :
                content.content_type === 'content_creation' ? 'POST' :
