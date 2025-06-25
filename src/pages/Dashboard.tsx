@@ -128,8 +128,8 @@ const Dashboard = () => {
     } catch (error) {
       console.error('Error fetching user data:', error);
       toast({
-        title: "Error",
-        description: "Failed to load user data",
+        title: "Erro",
+        description: "Falha ao carregar dados do usuário",
         variant: "destructive",
       });
     } finally {
@@ -198,7 +198,7 @@ const Dashboard = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 sm:h-32 sm:w-32 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 text-sm sm:text-base">Loading your dashboard...</p>
+          <p className="mt-4 text-gray-600 text-sm sm:text-base">Carregando seu painel...</p>
         </div>
       </div>
     );
@@ -236,15 +236,15 @@ const Dashboard = () => {
             <div className="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
               <Button 
                 className="bg-orange-500 hover:bg-orange-600 text-white px-2 sm:px-4 py-1.5 sm:py-2 rounded-md flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm"
-                onClick={() => toast({ title: "Ranking", description: "Feature coming soon!" })}
+                onClick={() => toast({ title: "Ranking", description: "Funcionalidade em breve!" })}
               >
                 <Trophy size={14} className="sm:w-4 sm:h-4" />
                 <span className="hidden xs:inline">1808 pts</span>
                 <span className="xs:hidden">1808</span>
               </Button>
               <Button onClick={handleSignOut} variant="outline" className="text-white border-white hover:bg-white hover:text-slate-800 text-xs sm:text-sm px-2 sm:px-4 py-1.5 sm:py-2">
-                <span className="hidden sm:inline">Sign Out</span>
-                <span className="sm:hidden">Out</span>
+                <span className="hidden sm:inline">Sair</span>
+                <span className="sm:hidden">Sair</span>
               </Button>
             </div>
           </div>
@@ -330,23 +330,23 @@ const Dashboard = () => {
           </Card>
         </div>
 
-        {/* Progress Overview */}
+        {/* Visão Geral do Progresso */}
         <div className="mb-6 sm:mb-8">
           <Card className="bg-white shadow-sm border border-gray-200 rounded-xl relative overflow-hidden">
             <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-br-full opacity-10"></div>
             <div className="absolute top-0 left-0 w-8 h-8 bg-blue-500 rounded-br-full"></div>
             <CardHeader className="pb-2 sm:pb-3 relative">
-              <CardTitle className="text-base sm:text-lg">Progress Overview</CardTitle>
+              <CardTitle className="text-base sm:text-lg">Visão Geral do Progresso</CardTitle>
             </CardHeader>
             <CardContent className="relative">
               <div className="space-y-2 sm:space-y-3">
                 <div className="flex justify-between text-xs sm:text-sm">
-                  <span>Tasks Completed</span>
-                  <span>{completedTasks} of {totalTasks}</span>
+                  <span>Atividades Concluídas</span>
+                  <span>{completedTasks} de {totalTasks}</span>
                 </div>
                 <Progress value={progressPercentage} className="h-1.5 sm:h-2" />
                 <p className="text-xs sm:text-sm text-gray-600">
-                  {progressPercentage.toFixed(0)}% complete
+                  {progressPercentage.toFixed(0)}% concluído
                 </p>
               </div>
             </CardContent>
