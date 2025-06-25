@@ -155,13 +155,46 @@ const WeekView = () => {
   const getContentTypeColor = (type: string) => {
     switch (type.toLowerCase()) {
       case 'reels':
-        return 'bg-pink-500';
+        return 'bg-gradient-to-r from-pink-500 to-purple-600';
       case 'carousel':
-        return 'bg-blue-500';
+        return 'bg-gradient-to-r from-blue-500 to-cyan-600';
       case 'youtube':
-        return 'bg-red-500';
+        return 'bg-gradient-to-r from-red-500 to-red-600';
+      case 'profile_setup':
+        return 'bg-gradient-to-r from-green-500 to-emerald-600';
+      case 'stories':
+        return 'bg-gradient-to-r from-orange-500 to-amber-600';
+      case 'content_creation':
+        return 'bg-gradient-to-r from-indigo-500 to-purple-600';
+      case 'article':
+        return 'bg-gradient-to-r from-slate-600 to-gray-700';
+      case 'planning':
+        return 'bg-gradient-to-r from-teal-500 to-cyan-600';
       default:
-        return 'bg-gray-500';
+        return 'bg-gradient-to-r from-gray-500 to-gray-600';
+    }
+  };
+
+  const getContentTypeLabel = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'reels':
+        return 'REELS';
+      case 'carousel':
+        return 'CARROSSEL';
+      case 'youtube':
+        return 'YOUTUBE';
+      case 'profile_setup':
+        return 'PERFIL';
+      case 'stories':
+        return 'STORIES';
+      case 'content_creation':
+        return 'POST';
+      case 'article':
+        return 'ARTIGO';
+      case 'planning':
+        return 'PLANEJAMENTO';
+      default:
+        return type.toUpperCase();
     }
   };
 
@@ -439,8 +472,8 @@ const WeekView = () => {
                               Dica de Conteúdo - Dia {selectedTask.day}
                             </h3>
                             {dailyContent && (
-                              <Badge className={`${getContentTypeColor(dailyContent.content_type)} text-white`}>
-                                {dailyContent.content_type.toUpperCase()}
+                              <Badge className={`${getContentTypeColor(dailyContent.content_type)} text-white shadow-lg`}>
+                                {getContentTypeLabel(dailyContent.content_type)}
                               </Badge>
                             )}
                           </div>
