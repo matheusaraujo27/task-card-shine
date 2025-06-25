@@ -95,26 +95,18 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
   };
 
   const getContentTypeLabel = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'reels':
-        return 'REELS';
-      case 'carousel':
-        return 'CARROSSEL';
-      case 'youtube':
-        return 'YOUTUBE';
-      case 'profile_setup':
-        return 'PERFIL';
-      case 'stories':
-        return 'STORIES';
-      case 'content_creation':
-        return 'POST';
-      case 'article':
-        return 'ARTIGO';
-      case 'planning':
-        return 'PLANEJAMENTO';
-      default:
-        return type.toUpperCase();
-    }
+    const typeMap: { [key: string]: string } = {
+      'reels': 'REELS',
+      'carousel': 'CARROSSEL',
+      'youtube': 'YOUTUBE',
+      'profile_setup': 'PERFIL',
+      'stories': 'STORIES',
+      'content_creation': 'POST',
+      'article': 'ARTIGO',
+      'planning': 'PLANEJAMENTO'
+    };
+
+    return typeMap[type.toLowerCase()] || type.toUpperCase();
   };
 
   const renderScenes = (scenes: any[]) => {

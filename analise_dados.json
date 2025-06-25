@@ -1,0 +1,54 @@
+{
+  "total_records": 77,
+  "arquetypes": {
+    "entrepreneur": 51,
+    "professional": 26
+  },
+  "scores_analysis": {
+    "digital": {
+      "min": 0,
+      "max": 10,
+      "avg": 4.16
+    },
+    "mentoring": {
+      "min": 0,
+      "max": 9,
+      "avg": 2.19
+    },
+    "speaking": {
+      "min": 0,
+      "max": 10,
+      "avg": 4.19
+    },
+    "book": {
+      "min": 0,
+      "max": 10,
+      "avg": 2.0
+    }
+  },
+  "segments": {
+    "Turismo e Entretenimento": 6,
+    "": 19,
+    "Comércio e Varejo": 9,
+    "Educação": 8,
+    "Saúde": 24,
+    "Finanças e Contabilidade": 5,
+    "Marketing e Comunicação": 4,
+    "Engenharia e Construção": 2
+  },
+  "experience_levels": {
+    "Mais de 10 anos": 53,
+    "Entre 5 a 10 anos": 13,
+    "Entre 1 a 2 anos": 2,
+    "Menos de 1 ano": 3,
+    "Entre 2 a 5 anos": 6
+  },
+  "geographic_distribution": {
+    "US": 1,
+    "Brasil": 48,
+    "BRASIL": 5,
+    "BR": 20,
+    "EUA": 1,
+    "brasil": 2
+  }
+}
