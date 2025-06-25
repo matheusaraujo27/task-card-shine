@@ -119,21 +119,21 @@ const ContentTipSheet = ({ isOpen, onClose, day }: ContentTipSheetProps) => {
           <Card key={index} className="bg-gray-700 border-gray-600">
             <CardHeader className="pb-3">
               <CardTitle className="text-white text-sm">
-                Cena {scene.scene} ({scene.duration})
+                Cena {index + 1} ({scene.duracao || scene.duration})
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
               <div>
                 <span className="text-blue-300 font-medium">Ação/Visual:</span>
-                <p className="text-gray-300 text-sm mt-1">{scene.action}</p>
+                <p className="text-gray-300 text-sm mt-1">{scene.acao_visual || scene.action}</p>
               </div>
               <div>
                 <span className="text-green-300 font-medium">Narração:</span>
-                <p className="text-gray-300 text-sm mt-1">{scene.audio}</p>
+                <p className="text-gray-300 text-sm mt-1">{scene.narracao || scene.audio}</p>
               </div>
               <div>
                 <span className="text-yellow-300 font-medium">Texto na Tela:</span>
-                <p className="text-gray-300 text-sm mt-1">{scene.text_overlay}</p>
+                <p className="text-gray-300 text-sm mt-1">{scene.texto_tela || scene.text_overlay}</p>
               </div>
             </CardContent>
           </Card>
